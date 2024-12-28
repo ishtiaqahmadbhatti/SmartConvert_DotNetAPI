@@ -1,0 +1,6 @@
+@SmartConvert.API_HostAddress = http://localhost:5298
+
+GET {{SmartConvert.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
