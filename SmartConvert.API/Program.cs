@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SmartConvert.API.Data;
 
 namespace SmartConvert.API
 {
@@ -10,6 +12,16 @@ namespace SmartConvert.API
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            // Configure EF Core with SQL Server
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnectionString")));
+
+            builder.Services.AddCors(cors => cors.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -24,12 +36,10 @@ namespace SmartConvert.API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseRouting();
+            app.UseCors("MyPolicy");
             app.UseAuthorization();
-
-
             app.MapControllers();
-
             app.Run();
         }
     }
