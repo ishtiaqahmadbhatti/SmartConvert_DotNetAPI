@@ -17,9 +17,9 @@ namespace SmartConvert.API
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnectionString")));
 
-            builder.Services.AddCors(cors => cors.AddPolicy("MyPolicy", builder =>
+            builder.Services.AddCors(cors => cors.AddPolicy("AllowAllOrigins", builder =>
             {
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
             }));
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -37,7 +37,7 @@ namespace SmartConvert.API
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseCors("MyPolicy");
+            app.UseCors("AllowAllOrigins");
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
