@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace SmartConvert.API.Controllers
 {
@@ -7,7 +8,7 @@ namespace SmartConvert.API.Controllers
     [ApiController]
     public class ConvertController : ControllerBase
     {
-        [HttpPost("convert")]
+        [HttpPost("video-to-audio")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> ConvertVideoToAudio([FromForm] FileUploadDto fileUpload)
         {
