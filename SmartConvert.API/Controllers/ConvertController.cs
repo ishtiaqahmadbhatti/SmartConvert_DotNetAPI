@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -29,14 +30,8 @@ namespace SmartConvert.API.Controllers
                 // Define output audio file path
                 var outputAudioPath = Path.ChangeExtension(tempVideoPath, ".mp3");
 
-                // Get the base directory of the application
-                var baseDirectory = AppContext.BaseDirectory;
-
-                // Combine the base directory with the relative path to the ffmpeg\bin folder
-                var ffmpegPath = Path.Combine("ffmpeg", "bin");
-
-                // Set FFmpeg executables path
-                Xabe.FFmpeg.FFmpeg.SetExecutablesPath(ffmpegPath);
+                // Set FFmpeg executables path for Linux
+                Xabe.FFmpeg.FFmpeg.SetExecutablesPath("/usr/bin");
 
                 // Convert video to audio
                 var conversion = await Xabe.FFmpeg.FFmpeg.Conversions.FromSnippet.ExtractAudio(tempVideoPath, outputAudioPath);
@@ -57,6 +52,5 @@ namespace SmartConvert.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
     }
 }
