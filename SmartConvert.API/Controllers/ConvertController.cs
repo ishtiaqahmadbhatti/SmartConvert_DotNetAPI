@@ -33,7 +33,7 @@ namespace SmartConvert.API.Controllers
                 var baseDirectory = AppContext.BaseDirectory;
 
                 // Combine the base directory with the relative path to the ffmpeg\bin folder
-                var ffmpegPath = Path.Combine(baseDirectory, "ffmpeg", "bin");
+                var ffmpegPath = Path.Combine("ffmpeg", "bin");
 
                 // Set FFmpeg executables path
                 Xabe.FFmpeg.FFmpeg.SetExecutablesPath(ffmpegPath);
