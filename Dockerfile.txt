@@ -1,0 +1,27 @@
+# Base image
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+WORKDIR /app
+EXPOSE 8080
+
+# Build image
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+COPY ["SmartConvert.API/SmartConvert.API.csproj", "SmartConvert.API/"]
+RUN dotnet restore "SmartConvert.API/SmartConvert.API.csproj"
+COPY . .
+WORKDIR "/src/SmartConvert.API"
+RUN dotnet build "SmartConvert.API.csproj" -c Release -o /app/build
+
+# Publish image
+FROM build AS publish
+RUN dotnet publish "SmartConvert.API.csproj" -c Release -o /app/publish
+
+# Final runtime image
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+# Install FFmpeg for Linux
+RUN apt-get update && apt-get install -y ffmpeg
+
+ENTRYPOINT ["dotnet", "SmartConvert.API.dll"]
